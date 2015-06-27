@@ -4,7 +4,6 @@
 #include <string>
 #include <utility>
 #include <vector>
-
 #include "hdf5.h"
 
 #include "caffe/blob.hpp"
@@ -143,6 +142,7 @@ class DummyDataLayer : public Layer<Dtype> {
   vector<bool> refill_;
 };
 
+#ifdef USE_HDF5
 /**
  * @brief Provides data to the Net from HDF5 files.
  *
@@ -230,6 +230,7 @@ class HDF5OutputLayer : public Layer<Dtype> {
   Blob<Dtype> label_blob_;
 };
 
+#endif   // requires hdf5
 /**
  * @brief Provides data to the Net from image files.
  *
@@ -275,8 +276,10 @@ class MemoryDataLayer : public BaseDataLayer<Dtype> {
   virtual inline int ExactNumTopBlobs() const { return 2; }
 
   virtual void AddDatumVector(const vector<Datum>& datum_vector);
+#ifdef USE_OPENCV
   virtual void AddMatVector(const vector<cv::Mat>& mat_vector,
       const vector<int>& labels);
+#endif
 
   // Reset should accept const pointers, but can't, because the memory
   //  will be given to Blob, which is mutable

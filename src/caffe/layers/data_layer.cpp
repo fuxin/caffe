@@ -1,5 +1,6 @@
+#ifdef USE_OPENCV
 #include <opencv2/core/core.hpp>
-
+#endif
 #include <stdint.h>
 
 #include <string>
