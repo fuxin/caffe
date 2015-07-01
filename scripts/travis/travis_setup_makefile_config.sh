@@ -11,6 +11,14 @@ if $WITH_CUDA; then
   echo "CUDA_ARCH := $GENCODE" >> Makefile.config
 fi
 
+# Remove IO library settings from Makefile.config
+# to avoid conflicts with CI configuration
+sed -i -e '/USE_LMDB/d' Makefile.config
+sed -i -e '/USE_LEVELDB/d' Makefile.config
+sed -i -e '/USE_OPENCV/d' Makefile.config
+sed -i -e '/USE_HDF5/d' Makefile.config
+sed -i -e '/USE_SNAPPY/d' Makefile.config
+
 cat << 'EOF' >> Makefile.config
 ANACONDA_HOME := $(HOME)/miniconda
 PYTHON_INCLUDE := $(ANACONDA_HOME)/include \
