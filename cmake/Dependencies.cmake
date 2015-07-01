@@ -2,7 +2,16 @@
 set(Caffe_LINKER_LIBS "")
 
 # ---[ Boost
-find_package(Boost 1.46 REQUIRED COMPONENTS system thread)
+set(Boost_COMPONENTS system thread)
+if(MSVC)
+    # todo move these options to project config
+    set(Boost_USE_STATIC_LIBS ON)
+    set(Boost_USE_MULTITHREAD ON)
+    set(Boost_USE_STATIC_RUNTIME OFF)
+    add_definitions(-DBOOST_ALL_NO_LIB)
+    list(APPEND Boost_COMPONENTS filesystem date_time)
+endif()
+find_package(Boost 1.46 REQUIRED COMPONENTS ${Boost_COMPONENTS})
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 list(APPEND Caffe_LINKER_LIBS ${Boost_LIBRARIES})
 
@@ -10,22 +19,22 @@ list(APPEND Caffe_LINKER_LIBS ${Boost_LIBRARIES})
 find_package(Threads REQUIRED)
 list(APPEND Caffe_LINKER_LIBS ${CMAKE_THREAD_LIBS_INIT})
 
-# ---[ Google-glog
-include("cmake/External/glog.cmake")
-include_directories(SYSTEM ${GLOG_INCLUDE_DIRS})
-list(APPEND Caffe_LINKER_LIBS ${GLOG_LIBRARIES})
-
 # ---[ Google-gflags
 include("cmake/External/gflags.cmake")
 include_directories(SYSTEM ${GFLAGS_INCLUDE_DIRS})
 list(APPEND Caffe_LINKER_LIBS ${GFLAGS_LIBRARIES})
+
+# ---[ Google-glog
+include("cmake/External/glog.cmake")
+include_directories(SYSTEM ${GLOG_INCLUDE_DIRS})
+list(APPEND Caffe_LINKER_LIBS ${GLOG_LIBRARIES})
 
 # ---[ Google-protobuf
 include(cmake/ProtoBuf.cmake)
 
 # ---[ HDF5
 if(USE_HDF5)
-  find_package(HDF5 COMPONENTS HL REQUIRED)
+  find_package(HDF5 COMPONENTS HL)
   include_directories(SYSTEM ${HDF5_INCLUDE_DIRS} ${HDF5_HL_INCLUDE_DIR})
   list(APPEND Caffe_LINKER_LIBS ${HDF5_LIBRARIES})
   add_definitions(-DUSE_HDF5)
@@ -114,18 +123,18 @@ if(BUILD_python)
     find_package(NumPy 1.7.1)
     # Find the matching boost python implementation
     set(version ${PYTHONLIBS_VERSION_STRING})
-    
+
     STRING( REPLACE "." "" boost_py_version ${version} )
     find_package(Boost 1.46 COMPONENTS "python-py${boost_py_version}")
     set(Boost_PYTHON_FOUND ${Boost_PYTHON-PY${boost_py_version}_FOUND})
-    
+
     while(NOT "${version}" STREQUAL "" AND NOT Boost_PYTHON_FOUND)
       STRING( REGEX REPLACE "([0-9.]+).[0-9]+" "\\1" version ${version} )
       STRING( REGEX MATCHALL "([0-9.]+).[0-9]+" has_more_version ${version} )
       if("${has_more_version}" STREQUAL "")
         break()
       endif()
-      
+
       STRING( REPLACE "." "" boost_py_version ${version} )
       find_package(Boost 1.46 COMPONENTS "python-py${boost_py_version}")
       set(Boost_PYTHON_FOUND ${Boost_PYTHON-PY${boost_py_version}_FOUND})
@@ -144,6 +153,9 @@ if(BUILD_python)
     set(HAVE_PYTHON TRUE)
     if(BUILD_python_layer)
       add_definitions(-DWITH_PYTHON_LAYER)
+      if(MSVC)
+        add_definitions(-DBOOST_PYTHON_STATIC_LIB)
+      endif()
       include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS} ${NUMPY_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
       list(APPEND Caffe_LINKER_LIBS ${PYTHON_LIBRARIES} ${Boost_LIBRARIES})
     endif()

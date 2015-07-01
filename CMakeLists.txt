@@ -42,7 +42,9 @@ if(USE_libstdcpp)
   message("-- Warning: forcing libstdc++ (controlled by USE_libstdcpp option in cmake)")
 endif()
 
+if(NOT MSVC) # rely on gtest header to determine what to do
 add_definitions(-DGTEST_USE_OWN_TR1_TUPLE)
+endif(NOT MSVC)
 
 # ---[ Warnings
 caffe_warnings_disable(CMAKE_CXX_FLAGS -Wno-sign-compare -Wno-uninitialized)
@@ -65,7 +67,7 @@ add_subdirectory(matlab)
 add_subdirectory(docs)
 
 # ---[ Linter target
-add_custom_target(lint COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/lint.cmake)
+add_custom_target(lint COMMAND ${CMAKE_COMMAND} -DMSVC=${MSVC} -P ${PROJECT_SOURCE_DIR}/cmake/lint.cmake)
 
 # ---[ Configuration summary
 caffe_print_configuration_summary()
