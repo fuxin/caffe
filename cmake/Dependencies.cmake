@@ -65,17 +65,16 @@ if(USE_SNAPPY)
 endif()
 
 # ---[ CUDA
-include(cmake/Cuda.cmake)
-if(NOT HAVE_CUDA)
-  if(CPU_ONLY)
-    message("-- CUDA is disabled. Building without it...")
-  else()
-    message("-- CUDA is not detected by cmake. Building without it...")
-  endif()
-
-  # TODO: remove this not cross platform define in future. Use caffe_config.h instead.
-  add_definitions(-DCPU_ONLY)
-endif()
+#include(cmake/Cuda.cmake)
+#if(NOT HAVE_CUDA)
+#  if(CPU_ONLY)
+#    message("-- CUDA is disabled. Building without it...")
+#  else()
+#    message("-- CUDA is not detected by cmake. Building without it...")
+#  endif()
+# TODO: remove this not cross platform define in future. Use caffe_config.h instead.
+add_definitions(-DCPU_ONLY)
+#endif()
 
 # ---[ OpenCV
 if(USE_OPENCV)
