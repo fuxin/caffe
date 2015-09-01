@@ -204,7 +204,7 @@ int main(int argc, char** argv) {
 }
 #else
 int main(int argc, char** argv) {
-  LOG(FATAL) << "This example requires LevelDB and LMDB; \
-  compile with USE_LEVELDB and USE_LMDB.";
+  LOG(FATAL) << "This example requires LevelDB and LMDB; " <<
+  "compile with USE_LEVELDB and USE_LMDB.";
 }
 #endif  // requires LevelDB and LMDB
