@@ -16,7 +16,6 @@ fi
 sed -i -e '/USE_LMDB/d' Makefile.config
 sed -i -e '/USE_LEVELDB/d' Makefile.config
 sed -i -e '/USE_OPENCV/d' Makefile.config
-sed -i -e '/USE_HDF5/d' Makefile.config
 sed -i -e '/USE_SNAPPY/d' Makefile.config
 
 cat << 'EOF' >> Makefile.config

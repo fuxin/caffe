@@ -170,7 +170,7 @@ ifneq ($(CPU_ONLY), 1)
 	LIBRARIES := cudart cublas curand
 endif
 
-LIBRARIES += glog gflags protobuf boost_system m
+LIBRARIES += glog gflags protobuf boost_system m hdf5_hl hdf5
 
 ifeq ($(USE_LEVELDB), 1)
   LIBRARIES += leveldb
@@ -180,9 +180,6 @@ ifeq ($(USE_SNAPPY), 1)
 endif
 ifeq ($(USE_LMDB), 1)
    LIBRARIES += lmdb
-endif
-ifeq ($(USE_HDF5), 1)
-    LIBRARIES += hdf5_hl hdf5
 endif
 ifeq ($(USE_OPENCV), 1)
 	LIBRARIES += opencv_core opencv_highgui opencv_imgproc
@@ -311,9 +308,6 @@ ifeq ($(USE_OPENCV), 1)
 endif
 ifeq ($(USE_SNAPPY), 1)
 	COMMON_FLAGS += -DUSE_SNAPPY
-endif
-ifeq ($(USE_HDF5), 1)
-	COMMON_FLAGS += -DUSE_HDF5
 endif
 ifeq ($(USE_LEVELDB), 1)
 	COMMON_FLAGS += -DUSE_LEVELDB

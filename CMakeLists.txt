@@ -25,7 +25,6 @@ caffe_option(BUILD_docs   "Build documentation" ON IF UNIX OR APPLE)
 caffe_option(BUILD_python_layer "Build the caffe python layer" ON)
 caffe_option(USE_LMDB "Build with lmdb" ON)
 caffe_option(USE_LEVELDB "Build with levelDB" ON)
-caffe_option(USE_HDF5 "Build with hdf5 support" ON)
 caffe_option(USE_OPENCV "Build with OpenCV support" ON)
 caffe_option(USE_SNAPPY "Build with Snappy support" ON)
 

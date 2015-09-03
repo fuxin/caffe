@@ -10,7 +10,6 @@
 # comment out to disable IO dependencies
 USE_LEVELDB := 1
 USE_LMDB := 1
-USE_HDF5 := 1
 USE_OPENCV := 1
 USE_SNAPPY := 1
 

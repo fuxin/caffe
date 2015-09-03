@@ -142,7 +142,6 @@ class DummyDataLayer : public Layer<Dtype> {
   vector<bool> refill_;
 };
 
-#ifdef USE_HDF5
 /**
  * @brief Provides data to the Net from HDF5 files.
  *
@@ -230,7 +229,6 @@ class HDF5OutputLayer : public Layer<Dtype> {
   Blob<Dtype> label_blob_;
 };
 
-#endif   // requires hdf5
 /**
  * @brief Provides data to the Net from image files.
  *

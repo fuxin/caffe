@@ -1,4 +1,3 @@
-#ifdef USE_HDF5
 /*
 TODO:
 - only load parts of the file, in accordance with a prototxt param "max_mem"
@@ -52,4 +51,3 @@ void HDF5DataLayer<Dtype>::Forward_gpu(const vector<Blob<Dtype>*>& bottom,
 INSTANTIATE_LAYER_GPU_FUNCS(HDF5DataLayer);
 
 }  // namespace caffe
-#endif  // requires hdf5
